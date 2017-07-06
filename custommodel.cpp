@@ -11,14 +11,8 @@ CustomModel::CustomModel()
            << "Дата ввода в эксплуатацию"
            << "Активное"
            << "Примечание ";
-
-
 }
 
-CustomModel::~CustomModel()
-{
-
-}
 
 QVariant CustomModel::headerData(int section,
                                  Qt::Orientation  orientation ,
@@ -28,8 +22,6 @@ QVariant CustomModel::headerData(int section,
             && section < headers.size()
             && orientation == Qt::Orientation::Horizontal)
         return headers.at(section);
-
-
 
     return QVariant();
 }
@@ -47,18 +39,16 @@ QVariant CustomModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     int row = index.row();
-
     QSqlRecord record = DataBase::getRecord(row);
-
     switch(index.column())
     {
-    case 0: return record.value("equipid");
-    case 1:return record.value("typename");
-    case 2:return record.value("equipname");
-    case 3:return record.value("date");
-    case 4:return record.value("isactive");
-    case 5:return record.value("note");
-    default: return QVariant();
+        case 0: return record.value("equipid");
+        case 1: return record.value("typename");
+        case 2: return record.value("equipname");
+        case 3: return record.value("date");
+        case 4: return record.value("isactive");
+        case 5: return record.value("note");
+        default: return QVariant();
     }
 
 }

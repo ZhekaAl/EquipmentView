@@ -15,13 +15,11 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     databaseinterface.cpp \
-    custommodel.cpp \
-    equipmentview.cpp
+    custommodel.cpp
 
 HEADERS  += mainwindow.h \
     databaseinterface.h \
-    custommodel.h \
-    equipmentview.h
+    custommodel.h
 
 FORMS += \
     mainwindow.ui

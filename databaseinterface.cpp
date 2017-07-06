@@ -1,9 +1,8 @@
 #include "databaseinterface.h"
 #include <QtSql>
 
-namespace DataBase
-{
-void buildBase()
+
+void DataBase::buildBase()
 {
     QSqlQuery q;
     q.clear();
@@ -17,7 +16,7 @@ void buildBase()
 }
 
 
-void insertTypeEquipment(int typeNumber, QString typeName)
+void DataBase::insertTypeEquipment(int typeNumber, QString typeName)
 {
     QSqlQuery q;
     q.clear();
@@ -37,7 +36,7 @@ void insertTypeEquipment(int typeNumber, QString typeName)
     /*prep=*/q.exec();
 }
 
-void insertInEquipmentList(int typeNumber, int id, QString name, QDate date, bool isActive, const QString& note)
+void DataBase::insertInEquipmentList(int typeNumber, int id, QString name, QDate date, bool isActive, const QString& note)
 {
     QSqlQuery q;
     q.clear();
@@ -61,7 +60,7 @@ void insertInEquipmentList(int typeNumber, int id, QString name, QDate date, boo
     /*prep=*/q.exec();
 }
 
-void insertBaseEquipmentsList()
+void DataBase::insertBaseEquipmentsList()
 {
 
     QDate date = QDate::currentDate();
@@ -69,25 +68,25 @@ void insertBaseEquipmentsList()
     QString note("Описание Описание Описание Описание Описание");
     for(int i = 0; i< 100; ++i)
     {
-      insertInEquipmentList(i%6, i, name + QString().setNum(i), date.addDays(i), i%2, note);
+        insertInEquipmentList(i%6, i, name + QString().setNum(i), date.addDays(i), i%2, note);
     }
 
 }
 
 
 
-void insertBaseTypesEquipment()
+void DataBase::insertBaseTypesEquipment()
 {
-   insertTypeEquipment(0,"Не определено") ;
-   insertTypeEquipment(1,"Наземное") ;
-   insertTypeEquipment(2,"Летательный аппарат") ;
-   insertTypeEquipment(3,"Спутник") ;
-   insertTypeEquipment(4,"Антенна") ;
-   insertTypeEquipment(5,"Мобильная установка") ;
+    insertTypeEquipment(0,"Не определено") ;
+    insertTypeEquipment(1,"Наземное") ;
+    insertTypeEquipment(2,"Летательный аппарат") ;
+    insertTypeEquipment(3,"Спутник") ;
+    insertTypeEquipment(4,"Антенна") ;
+    insertTypeEquipment(5,"Мобильная установка") ;
 }
 
 
-void createEquipmentView()
+void DataBase::createEquipmentView()
 {
     QSqlQuery query;
 
@@ -98,26 +97,23 @@ void createEquipmentView()
 
 }
 
-bool dataBaseOpen()
+bool DataBase::dataBaseOpen(QString name)
 {
     bool emptyBase = true;
 
-    QString dataBaseName("equipment.sqlite");
 
-
-    QFile f(dataBaseName);
+    QFile f(name);
     if(f.exists())
         emptyBase=false;
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(dataBaseName);
+    db.setDatabaseName( name);
 
     if(!db.open())
     {
-        qDebug()<<"CatalogManager: dbOpen FALSE";
+        qDebug()<<"dbOpen FALSE";
         return false;
     }
-
 
     if(emptyBase == true)
     {
@@ -127,17 +123,16 @@ bool dataBaseOpen()
         createEquipmentView();
     }
 
-
     QSqlQuery q;
     q.exec("PRAGMA foreign_keys = ON");
-//    if(!db.transaction())
-//        qDebug()<<"dbOpen db.transaction() FALSE";
+    //    if(!db.transaction())
+    //        qDebug()<<"dbOpen db.transaction() FALSE";
 
     return true;
 
 }
 
-QSqlRecord getRecord(int equipId)
+QSqlRecord DataBase::getRecord(int equipId)
 {
     QSqlQuery query;
     /*bool p=*/ query.prepare("SELECT * FROM Equipmentview WHERE equipid=?");
@@ -147,7 +142,7 @@ QSqlRecord getRecord(int equipId)
     return query.record();
 }
 
-int getEqupmentListCount()
+int DataBase::getEqupmentListCount()
 {
 
     QSqlQuery query;
@@ -155,10 +150,9 @@ int getEqupmentListCount()
     query.exec();
     query.first();
 
-
     int count = query.record().value(0).toInt();
     return count;
 
 }
 
-}
+

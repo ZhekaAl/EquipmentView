@@ -2,14 +2,15 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSortFilterProxyModel>
+
 #include "ui_mainwindow.h"
 #include "custommodel.h"
-
-#include <QSortFilterProxyModel>
 
 namespace Ui {
     class MainWindow;
 }
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -19,10 +20,12 @@ public:
     ~MainWindow();
 
 private  :
-    Ui::MainWindow *ui;
-
+    void setupTableView(QTableView& tableView);
+    void setStyle();
     CustomModel myModel;
     QSortFilterProxyModel proxyModel;
+
+    Ui::MainWindow *ui;
 };
 
 #endif // MAINWINDOW_H

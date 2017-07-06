@@ -3,15 +3,12 @@
 
 #include <QAbstractItemModel>
 #include <QAbstractTableModel>
-
-
 #include <QSqlQuery>
 
 class CustomModel : public QAbstractItemModel
 {
 public:
-    CustomModel();
-    ~CustomModel();
+    explicit CustomModel();
     int rowCount(const QModelIndex &) const;
     int columnCount(const QModelIndex &) const;
     QVariant data(const QModelIndex &index, int role) const;
